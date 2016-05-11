@@ -12,11 +12,15 @@ TXML is library for temporal storing your XML documents in relational database. 
 You can import project to Netbeans 7/8 or build with maven.
 
 ###<a name="maven"></a> maven build
+```
 git clone https://github.com/tkunovsky/TXML.git
 cd TXML
 mvn org.apache.maven.plugins:maven-compiler-plugin:compile
 mvn install
+```
 
 After you can run TXML library with file, see examples.
+```
 java -jar ./target/TXml-1.0.0-jar-with-dependencies.jar file.example
+```
 
