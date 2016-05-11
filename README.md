@@ -52,8 +52,9 @@ public class TXMLInEXamples {
         Class.forName("org.postgresql.Driver");
         TXml txml = new TXml();
         String schemaName = "txml";
-        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml");
-        txml.initSchema(connection, schemaName);
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
+            txml.initSchema(connection, schemaName);
+        }
     }
 }
 ```
