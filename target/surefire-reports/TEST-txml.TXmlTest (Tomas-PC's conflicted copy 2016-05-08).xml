@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuite tests="38" failures="0" name="txml.TXmlTest" time="12.998" errors="0" skipped="0">
+  <properties>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_45\jre\bin"/>
+    <property name="java.vm.version" value="25.45-b02"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.vendor.url" value="http://java.oracle.com/"/>
+    <property name="path.separator" value=";"/>
+    <property name="guice.disable.misplaced.annotation.check" value="true"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="file.encoding.pkg" value="sun.io"/>
+    <property name="user.script" value=""/>
+    <property name="user.country" value="CZ"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.os.patch.level" value="Service Pack 1"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="user.dir" value="C:\Users\Tomas\Dropbox\2014\diplomka\implementace\TXml"/>
+    <property name="java.runtime.version" value="1.8.0_45-b14"/>
+    <property name="java.awt.graphicsenv" value="sun.awt.Win32GraphicsEnvironment"/>
+    <property name="java.endorsed.dirs" value="C:\Program Files\Java\jdk1.8.0_45\jre\lib\endorsed"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.io.tmpdir" value="C:\Users\Tomas\AppData\Local\Temp\"/>
+    <property name="line.separator" value="
+"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.variant" value=""/>
+    <property name="os.name" value="Windows 7"/>
+    <property name="maven.ext.class.path" value="C:\Program Files\NetBeans 8.1 RC2\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="classworlds.conf" value="C:\Program Files\NetBeans 8.1 RC2\java\maven\bin\m2.conf"/>
+    <property name="sun.jnu.encoding" value="Cp1250"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk1.8.0_45\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\AMD\ATI.ACE\Core-Static;C:\Program Files (x86)\nodejs\;C:\Program Files (x86)\Git\cmd;C:\Program Files (x86)\Skype\Phone\;C:\Users\Tomas\AppData\Roaming\npm;."/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="java.class.version" value="52.0"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="os.version" value="6.1"/>
+    <property name="user.home" value="C:\Users\Tomas"/>
+    <property name="user.timezone" value="Europe/Prague"/>
+    <property name="java.awt.printerjob" value="sun.awt.windows.WPrinterJob"/>
+    <property name="java.specification.version" value="1.8"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="user.name" value="Tomas"/>
+    <property name="java.class.path" value="C:\Program Files\NetBeans 8.1 RC2\java\maven\boot\plexus-classworlds-2.4.jar"/>
+    <property name="java.vm.specification.version" value="1.8"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk1.8.0_45\jre"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -Dmaven.ext.class.path=C:\Program Files\NetBeans 8.1 RC2\java\maven-nblib\netbeans-eventspy.jar -Dfile.encoding=UTF-8 test"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="user.language" value="cs"/>
+    <property name="awt.toolkit" value="sun.awt.windows.WToolkit"/>
+    <property name="java.vm.info" value="mixed mode"/>
+    <property name="java.version" value="1.8.0_45"/>
+    <property name="java.ext.dirs" value="C:\Program Files\Java\jdk1.8.0_45\jre\lib\ext;C:\Windows\Sun\Java\lib\ext"/>
+    <property name="sun.boot.class.path" value="C:\Program Files\Java\jdk1.8.0_45\jre\lib\resources.jar;C:\Program Files\Java\jdk1.8.0_45\jre\lib\rt.jar;C:\Program Files\Java\jdk1.8.0_45\jre\lib\sunrsasign.jar;C:\Program Files\Java\jdk1.8.0_45\jre\lib\jsse.jar;C:\Program Files\Java\jdk1.8.0_45\jre\lib\jce.jar;C:\Program Files\Java\jdk1.8.0_45\jre\lib\charsets.jar;C:\Program Files\Java\jdk1.8.0_45\jre\lib\jfr.jar;C:\Program Files\Java\jdk1.8.0_45\jre\classes"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="maven.home" value="C:\Program Files\NetBeans 8.1 RC2\java\maven"/>
+    <property name="file.separator" value="\"/>
+    <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="sun.desktop" value="windows"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+  </properties>
+  <testcase classname="txml.TXmlTest" name="testOverBottomInFilter" time="6.872"/>
+  <testcase classname="txml.TXmlTest" name="testSetParentAttributeWithGap" time="0.735"/>
+  <testcase classname="txml.TXmlTest" name="testSetParentChangeOrderWithoutGap" time="0.27"/>
+  <testcase classname="txml.TXmlTest" name="testOverTop" time="0.073"/>
+  <testcase classname="txml.TXmlTest" name="testUndirectPathInFilter" time="0.071"/>
+  <testcase classname="txml.TXmlTest" name="testUndirectSimpleTXmlValue" time="0.084"/>
+  <testcase classname="txml.TXmlTest" name="testSetParentNoChangeWithGap" time="0.213"/>
+  <testcase classname="txml.TXmlTest" name="testUndirectSimpleInsert" time="0.105"/>
+  <testcase classname="txml.TXmlTest" name="testMultiSetParentWithGap" time="0.102"/>
+  <testcase classname="txml.TXmlTest" name="testRoot" time="0.062"/>
+  <testcase classname="txml.TXmlTest" name="testSimpleUndirectTwoDots" time="0.065"/>
+  <testcase classname="txml.TXmlTest" name="testUndirectText" time="0.063"/>
+  <testcase classname="txml.TXmlTest" name="testComplexUndirectStar" time="0.03"/>
+  <testcase classname="txml.TXmlTest" name="testUndirectTwoDotsInFilter" time="0.072"/>
+  <testcase classname="txml.TXmlTest" name="testUndirectSimpleTemporalWithDelete" time="0.043"/>
+  <testcase classname="txml.TXmlTest" name="testSimpleFilter" time="0.069"/>
+  <testcase classname="txml.TXmlTest" name="testDirectText" time="0.053"/>
+  <testcase classname="txml.TXmlTest" name="testSimpleParent" time="0.032"/>
+  <testcase classname="txml.TXmlTest" name="testSetParentUpWithGap" time="0.034"/>
+  <testcase classname="txml.TXmlTest" name="testChangeTextWithGap" time="0.032"/>
+  <testcase classname="txml.TXmlTest" name="testLongDirectFilter" time="0.057"/>
+  <testcase classname="txml.TXmlTest" name="testSetParentChangeOrderWithGap" time="0.095"/>
+  <testcase classname="txml.TXmlTest" name="testUndirectSimpleInsertWithoutTimeGap" time="0.004"/>
+  <testcase classname="txml.TXmlTest" name="testFormatSimpleSnapshot1" time="0.053"/>
+  <testcase classname="txml.TXmlTest" name="testFormatSimpleSnapshot2" time="0.033"/>
+  <testcase classname="txml.TXmlTest" name="testFiltersInFilters" time="0.035"/>
+  <testcase classname="txml.TXmlTest" name="testOverTopInFilter" time="0.035"/>
+  <testcase classname="txml.TXmlTest" name="testParentInFilter" time="0.041"/>
+  <testcase classname="txml.TXmlTest" name="testOverBottom" time="0.101"/>
+  <testcase classname="txml.TXmlTest" name="testComplexFilter" time="0.035"/>
+  <testcase classname="txml.TXmlTest" name="testComplexUndirectDot" time="0.052"/>
+  <testcase classname="txml.TXmlTest" name="testSimpleUndirectDot" time="0.038"/>
+  <testcase classname="txml.TXmlTest" name="testSetParentTextWithGap" time="0.098"/>
+  <testcase classname="txml.TXmlTest" name="testUndirectComplexTXmlValue" time="0.041"/>
+  <testcase classname="txml.TXmlTest" name="testSimpleUndirectStar" time="0.032"/>
+  <testcase classname="txml.TXmlTest" name="testDoubleFilter" time="0.074"/>
+  <testcase classname="txml.TXmlTest" name="testSetParentDownWithGap" time="0.054"/>
+  <testcase classname="txml.TXmlTest" name="testFilterInFilter" time="0.001"/>
+</testsuite>
