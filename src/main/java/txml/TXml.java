@@ -288,7 +288,7 @@ public class TXml {
                 }
             }
         } catch (IOException | TXmlException | SQLException ex) {
-            System.out.println(ex.getLocalizedMessage());
+            System.err.println("Error:" + "\n" + ex.getLocalizedMessage());
         }
     }
                 
