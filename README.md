@@ -5,6 +5,7 @@
 2.  [Howto build](#build)
     *  [maven build](#maven)
 3.  [Documentation](#doc)
+4.  [Examples](#examples)
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
@@ -26,4 +27,7 @@ java -jar ./target/TXml-1.0.0-jar-with-dependencies.jar file.example
 
 ##<a name="doc"></a> Documentation
 https://htmlpreview.github.io/?https://github.com/tkunovsky/TXML/blob/master/target/site/apidocs/index.html
+
+##<a name="examples"></a> Examples
+TXML library offers two channel for working with your XML documents. You can use only object API and XPath or its DML and DDL.
 
