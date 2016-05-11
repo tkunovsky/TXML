@@ -6,6 +6,7 @@
     *  [maven build](#maven)
 3.  [Documentation](#doc)
 4.  [Examples](#examples)
+    *  [Init schema](#init_schema) 
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
@@ -37,3 +38,22 @@ TXML library offers two channel for working with your XML documents. You can use
 
 In next examples is used XML document https://github.com/tkunovsky/TXML/blob/master/src/main/resources/books2.xml
 
+###<a name="init_schema"></a> Init schema
+This example create in database all tables for XML documents under schema txml.
+```
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import txml.TXml;
+
+public class TXMLInEXamples {
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        Class.forName("org.postgresql.Driver");
+        TXml txml = new TXml();
+        String schemaName = "txml";
+        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml");
+        txml.initSchema(connection, schemaName);
+    }
+}
+```
