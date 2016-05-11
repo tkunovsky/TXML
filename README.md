@@ -29,5 +29,5 @@ java -jar ./target/TXml-1.0.0-jar-with-dependencies.jar file.example
 https://htmlpreview.github.io/?https://github.com/tkunovsky/TXML/blob/master/target/site/apidocs/index.html
 
 ##<a name="examples"></a> Examples
-TXML library offers two channel for working with your XML documents. You can use only object API and XPath or its DML and DDL.
+TXML library offers two channel for working with your XML documents. You can use only object API and XPath or its DML and DDL language.
 
