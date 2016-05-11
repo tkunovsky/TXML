@@ -39,7 +39,7 @@ TXML library offers two channel for working with your XML documents. You can use
 In next examples is used XML document https://github.com/tkunovsky/TXML/blob/master/src/main/resources/books2.xml
 
 ###<a name="init_schema"></a> Init schema example
-This example create in database all tables for XML documents under schema txml.
+This example creates in database all tables for XML documents under schema txml.
 ```
 import java.sql.Connection;
 import java.sql.DriverManager;
