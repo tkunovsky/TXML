@@ -12,7 +12,7 @@ TXML is library for temporal storing your XML documents in relational database. 
 
 Temporal attributes have namespace txml, see https://github.com/tkunovsky/TXML/blob/master/src/main/resources/txml_schema.xsd
 
-Documents in database are storing into schema. This allows you to group them and setting access permissions.
+Documents in database are storing into schemas. This allows you to group them and setting access permissions.
 
 ##<a name="build"></a> Howto build
 You can import project to Netbeans 7/8 or build with maven.
