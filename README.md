@@ -20,7 +20,7 @@ cd TXML
 mvn org.apache.maven.plugins:maven-compiler-plugin:compile
 mvn install
 ```
-After you can run TXML library with file containing source code, see examples.
+After build you can run TXML library with file containing source code, see examples.
 ```
 java -jar ./target/TXml-1.0.0-jar-with-dependencies.jar file.example
 ```
