@@ -58,3 +58,16 @@ public class TXMLInEXamples {
     }
 }
 ```
+
+###<a name="load_documenta"></a> Document store example
+This example stores your XML document to database under name example.xml.
+```
+public static void main(String[] args) throws SQLException, ClassNotFoundException {
+     Class.forName("org.postgresql.Driver");
+     TXml txml = new TXml();
+     String schemaName = "txml";
+     try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
+         txml.loadDocumentToDb(connection, schemaName, "example.xml", "/home/tomas/books2.xml");
+     }
+ }
+```
