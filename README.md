@@ -8,6 +8,7 @@
 4.  [Examples](#examples)
     *  [Init schema](#init_schema) 
     *  [Document store](#load_document)
+    *  [Deinit schema](#deinit_schema) 
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
@@ -76,3 +77,21 @@ public static void main(String[] args) throws SQLException, ClassNotFoundExcepti
      }
  }
 ```
+
+###<a name="deinit_schema"></a> Deinit schema example
+This example delete schema txml and its document tables from database.
+```
+public class TXMLInEXamples {
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        Class.forName("org.postgresql.Driver");
+        TXml txml = new TXml();
+        String schemaName = "txml";
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
+            txml.deinitSchema(connection, schemaName);
+            /* alternative
+            txml.eval("txml:deinit-schema('txml')", connection); */
+        }
+    }
+}
+
