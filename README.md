@@ -107,6 +107,12 @@ This example insert new element into document.
      try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
          Node rootNode = txml.eval("txml:doc('txml', 'example.xml')/*", connection, false).asNodeList().item(0);
          rootNode.insertIntoDocument("book/title", "Ferdinand Peroutka. Život v novinách");
+         
+         /* alternative
+         txml.eval(
+             "for $n in txml:doc('txml', 'example.xml')/*                          " +
+             "    insert $n/book/title VALUE 'Ferdinand Peroutka. Život v novinách'", connection, false);*/
+         
      }
  }
 ```
