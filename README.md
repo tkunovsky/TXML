@@ -54,6 +54,8 @@ public class TXMLInEXamples {
         String schemaName = "txml";
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
             txml.initSchema(connection, schemaName);
+            /* alternative 
+            txml.eval("txml:init-schema('txml')", connection); */
         }
     }
 }
