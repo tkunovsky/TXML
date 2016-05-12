@@ -70,6 +70,8 @@ public static void main(String[] args) throws SQLException, ClassNotFoundExcepti
      String schemaName = "txml";
      try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
          txml.loadDocumentToDb(connection, schemaName, "example.xml", "/home/tomas/books2.xml");
+         /* alternative 
+         txml.eval("txml:store('txml', '/home/tomas/books2.xml', 'example.xml')", connection); */
      }
  }
 ```
