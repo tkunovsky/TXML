@@ -7,6 +7,7 @@
 3.  [Documentation](#doc)
 4.  [Examples](#examples)
     *  [Init schema](#init_schema) 
+    *  [Document store](#load_document)
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
@@ -61,7 +62,7 @@ public class TXMLInEXamples {
 }
 ```
 
-###<a name="load_documenta"></a> Document store example
+###<a name="load_document"></a> Document store example
 This example stores your XML document to database under name example.xml.
 ```
 public static void main(String[] args) throws SQLException, ClassNotFoundException {
