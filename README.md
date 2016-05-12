@@ -9,6 +9,7 @@
     *  [Init schema](#init_schema) 
     *  [Document store](#load_document)
     *  [Deinit schema](#deinit_schema) 
+    *  [Element insert](#element_insert) 
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
@@ -94,4 +95,17 @@ public class TXMLInEXamples {
         }
     }
 }
+```
 
+###<a name="element_insert"></a> Element insert
+This example insert new element into document.
+```
+ public static void main(String[] args) throws SQLException, ClassNotFoundException {
+     Class.forName("org.postgresql.Driver");
+     TXml txml = new TXml();
+     try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
+         Node rootNode = txml.eval("txml:doc('txml', 'example.xml')/*", connection, false).asNodeList().item(0);
+         rootNode.insertIntoDocument("book/title", "Ferdinand Peroutka. Život v novinách");
+     }
+ }
+```
