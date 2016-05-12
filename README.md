@@ -119,6 +119,9 @@ This example show temporal XPath query after previous example.
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
             Node node = txml.eval("txml:doc('txml', 'example.xml')/library/book[title = 'Ferdinand Peroutka. Život v novinách']", connection, false).asNodeList().item(0);
             System.out.println(node.getTree(false));
+            
+            /* alternative
+            Node node = txml.eval("txml:doc('txml', 'example.xml')/library/book[txml:id = '70']", connection, false).asNodeList().item(0);*/
         }
     }
 ```
