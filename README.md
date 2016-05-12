@@ -104,19 +104,21 @@ This example insert new element into document.
 import txml.TXml;
 import txml.Node;
 
-public static void main(String[] args) throws SQLException, ClassNotFoundException {
-  Class.forName("org.postgresql.Driver");
-  TXml txml = new TXml();
-  try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
-      Node rootNode = txml.eval("txml:doc('txml', 'example.xml')/*", connection, false).asNodeList().item(0);
-      rootNode.insertIntoDocument("book/title", "Ferdinand Peroutka. Život v novinách");
-      
-      /* alternative
-      txml.eval(
-          "for $n in txml:doc('txml', 'example.xml')/*                          " +
-          "    insert $n/book/title VALUE 'Ferdinand Peroutka. Život v novinách'", connection, false);*/
-      
-  }
+public class TXMLInEXamples {
+   public static void main(String[] args) throws SQLException, ClassNotFoundException {
+     Class.forName("org.postgresql.Driver");
+     TXml txml = new TXml();
+     try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
+         Node rootNode = txml.eval("txml:doc('txml', 'example.xml')/*", connection, false).asNodeList().item(0);
+         rootNode.insertIntoDocument("book/title", "Ferdinand Peroutka. Život v novinách");
+         
+         /* alternative
+         txml.eval(
+             "for $n in txml:doc('txml', 'example.xml')/*                          " +
+             "    insert $n/book/title VALUE 'Ferdinand Peroutka. Život v novinách'", connection, false);*/
+         
+     }
+   }
 }
 ```
 ###<a name="XPath_after_insert"></a> XPath after insert
@@ -125,17 +127,19 @@ This example show temporal XPath query after previous example.
 import txml.TXml;
 import txml.Node;
 
- public static void main(String[] args) throws SQLException, ClassNotFoundException {
-     Class.forName("org.postgresql.Driver");
-     TXml txml = new TXml();
-     try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
-         Node node = txml.eval("txml:doc('txml', 'example.xml')/library/book[title = 'Ferdinand Peroutka. Život v novinách']", connection, false).asNodeList().item(0);
-         System.out.println(node.getTree(false));
-         
-         /* alternative
-         Node node = txml.eval("txml:doc('txml', 'example.xml')/library/book[txml:id = '70']", connection, false).asNodeList().item(0);*/
-     }
- }
+public class TXMLInEXamples {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        Class.forName("org.postgresql.Driver");
+        TXml txml = new TXml();
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
+            Node node = txml.eval("txml:doc('txml', 'example.xml')/library/book[title = 'Ferdinand Peroutka. Život v novinách']", connection, false).asNodeList().item(0);
+            System.out.println(node.getTree(false));
+            
+            /* alternative
+            Node node = txml.eval("txml:doc('txml', 'example.xml')/library/book[txml:id = '70']", connection, false).asNodeList().item(0);*/
+        }
+    }
+}
 ```
 This is output on stdout:
 ```
