@@ -101,7 +101,10 @@ public class TXMLInEXamples {
 ###<a name="element_insert"></a> Element insert
 This example insert new element into document.
 ```
- public static void main(String[] args) throws SQLException, ClassNotFoundException {
+import txml.TXml;
+import txml.Node;
+
+   public static void main(String[] args) throws SQLException, ClassNotFoundException {
      Class.forName("org.postgresql.Driver");
      TXml txml = new TXml();
      try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
@@ -119,6 +122,9 @@ This example insert new element into document.
 ###<a name="XPath_after_insert"></a> XPath after insert
 This example show temporal XPath query after previous example.
 ```
+import txml.TXml;
+import txml.Node;
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException, FileNotFoundException, ParserConfigurationException, XMLStreamException {
         Class.forName("org.postgresql.Driver");
         TXml txml = new TXml();
