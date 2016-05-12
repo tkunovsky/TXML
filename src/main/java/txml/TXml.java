@@ -116,6 +116,7 @@ public class TXml {
     public TXmlResult eval(String code, Connection connection, Boolean sort) throws TXmlException, SQLException {
         InstructionsInterpreter instructionsInterpreter = null;
         try {
+            if (connection != null) connection.setAutoCommit(false);
             Class.forName("org.postgresql.Driver");
             Class.forName("org.h2.Driver");
             XQueryErrorListener xQueryErrorListener = new XQueryErrorListener();
