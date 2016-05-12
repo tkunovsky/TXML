@@ -36,7 +36,7 @@ https://htmlpreview.github.io/?https://github.com/tkunovsky/TXML/blob/master/tar
 ##<a name="examples"></a> Examples
 TXML library offers two channel for working with your XML documents. You can use only object API and XPath or its DML and DDL language.
 
-In next examples is used XML document https://github.com/tkunovsky/TXML/blob/master/src/main/resources/books2.xml
+In next examples is used XML document https://raw.githubusercontent.com/tkunovsky/TXML/master/src/main/resources/books2.xml
 
 ###<a name="init_schema"></a> Init schema example
 This example creates in database all tables for XML documents under schema txml.
