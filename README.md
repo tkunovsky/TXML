@@ -82,7 +82,7 @@ public static void main(String[] args) throws SQLException, ClassNotFoundExcepti
 ```
 
 ###<a name="deinit_schema"></a> Deinit schema example
-This example delete schema txml and its document tables from database.
+This example deletes schema txml and its document tables from database.
 ```
 public class TXMLInEXamples {
 
@@ -100,7 +100,7 @@ public class TXMLInEXamples {
 ```
 
 ###<a name="element_insert"></a> Element insert
-This example insert new element into document.
+This example inserts new element into document.
 ```
 import txml.TXml;
 import txml.Node;
@@ -123,7 +123,7 @@ public class TXMLInEXamples {
 }
 ```
 ###<a name="XPath_after_insert"></a> XPath after insert
-This example show temporal XPath query after previous example.
+This example shows temporal XPath query after previous example.
 ```
 import txml.TXml;
 import txml.Node;
@@ -152,7 +152,7 @@ This is output on stdout:
 ```
 
 ###<a name="attribute_delete"></a> Attribute delete
-This example delete attribute in document example.xml.
+This example deletes attribute in document example.xml.
 ```
 import txml.TXml;
 import txml.Node;
