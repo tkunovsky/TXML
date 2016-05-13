@@ -16,10 +16,10 @@ limitations under the License.
 -->
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-  xmlns:txml="http://www.txml.org"
+  xmlns:txml="https://github.com/tkunovsky/TXML"
   elementFormDefault="qualified"
   attributeFormDefault="qualified"
-  txml:schemaLocation="http://www.txml.org https://github.com/tkunovsky/TXML/TXml/src/main/resources/txml_schema.xsd">
+  txml:schemaLocation="https://github.com/tkunovsky/TXML https://raw.githubusercontent.com/tkunovsky/TXML/master/src/main/resources/txml_schema.xsd">
 
   <xs:attribute name="from" type="xs:date"/>
   <xs:attribute name="to" type="xs:date"/>
