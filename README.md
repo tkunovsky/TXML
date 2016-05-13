@@ -287,7 +287,7 @@ This is output on stdout:
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <library xmlns="http://eric.van-der-vlist.com/ns/library" xmlns:hr="http://eric.van-der-vlist.com/ns/person">
-  <book id="b0836217462" available="true">
+  <book id="b0836217462">
     <isbn>
       0836217462
     </isbn>
