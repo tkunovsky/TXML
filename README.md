@@ -15,6 +15,7 @@
     *  [XPath after delete](#XPath_after_delete) 
     *  [Element move](#element_move) 
     *  [XPath after move](#XPath_after_move) 
+    *  [Snapshot](#snapshot) 
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
@@ -264,4 +265,108 @@ This is output on stdout:
     Ferdinand Peroutka. Život v novinách
   </title>
 </book>
+```
+###<a name="snapshot"></a> Snapshot
+This example shows snapshot your XML document.
+```
+import txml.TXml;
+
+public class TXMLInEXamples {
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        Class.forName("org.postgresql.Driver");
+        TXml txml = new TXml();
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {  
+            String xmlDoc = txml.getSnapshot(connection, "txml", "example.xml", "Now").getXMLDocFormatA();
+            System.out.println(xmlDoc);
+        }
+    }
+}
+```
+This is output on stdout:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://eric.van-der-vlist.com/ns/library" xmlns:hr="http://eric.van-der-vlist.com/ns/person">
+  <book id="b0836217462" available="true">
+    <isbn>
+      0836217462
+    </isbn>
+    <title xml:lang="en">
+      Being a Dog Is a Full-Time Job
+    </title>
+    <hr:author id="CMS">
+      <hr:name>
+        Charles M Schulz
+      </hr:name>
+      <hr:born>
+        1922-11-26
+      </hr:born>
+      <hr:dead>
+        2000-02-12
+      </hr:dead>
+    </hr:author>
+    <character id="PP">
+      <hr:name>
+        Peppermint Patty
+      </hr:name>
+      <hr:born>
+        1966-08-22
+      </hr:born>
+      <qualification>
+        bold, brash and tomboyish
+      </qualification>
+    </character>
+    <character id="Snoopy">
+      <hr:name>
+        Snoopy
+      </hr:name>
+      <hr:born>
+        1950-10-04
+      </hr:born>
+      <qualification>
+        extroverted beagle
+      </qualification>
+    </character>
+    <character id="Schroeder">
+      <hr:name>
+        Schroeder
+      </hr:name>
+      <hr:born>
+        1951-05-30
+      </hr:born>
+      <qualification>
+        brought classical music to the Peanuts strip
+      </qualification>
+    </character>
+    <character id="Lucy">
+      <hr:name>
+        Lucy
+      </hr:name>
+      <hr:born>
+        1952-03-03
+      </hr:born>
+      <qualification>
+        bossy, crabby and selfish
+      </qualification>
+    </character>
+  </book>
+  <book id="8090119964">
+    <title xml:lang="cz">
+      Babička
+    </title>
+    <hr:author>
+      <hr:name>
+        Božena Němcová
+      </hr:name>
+    </hr:author>
+  </book>
+  <book>
+    <isbn>
+      8090119964
+    </isbn>
+    <title>
+      Ferdinand Peroutka. Život v novinách
+    </title>
+  </book>
+</library>
 ```
