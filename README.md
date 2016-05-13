@@ -243,6 +243,11 @@ public class TXMLInEXamples {
                     "declare option txml:time-format 'H:mm:ss:SSS';" +
                     "txml:doc('txml', 'example.xml')//isbn[. = '8090119964']/..", connection, true).asNodeList();
             System.out.println(nodes.getTrees(true));
+            
+            /* alternative
+            NodeList nodes = txml.eval(
+                    "declare option txml:time-format 'H:mm:ss:SSS';" +
+                    "txml:doc('txml', 'example.xml')//@txml:id="61", connection, true).asNodeList();*/
         }
     }
 }
