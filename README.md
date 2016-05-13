@@ -165,6 +165,11 @@ public class TXMLInEXamples {
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
             Node node = txml.eval("txml:doc('txml', 'example.xml')/library/book[@id='b0836217462']/@available", connection, false).asNodeList().item(0);
             node.deleteInDocument();
+            
+            /* alternative
+            txml.eval("for $n in txml:doc('txml', 'example.xml')/library/book[@id='b0836217462'] "
+                    + "    delete node $n/@available                                             "
+                    , connection, false);*/
         }
     }
 }
