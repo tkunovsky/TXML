@@ -14,6 +14,7 @@
     *  [Attribute delete](#attribute_delete)
     *  [XPath after delete](#XPath_after_delete) 
     *  [Element move](#element_move) 
+    *  [XPath after move](#XPath_after_move) 
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
@@ -220,5 +221,47 @@ public class TXMLInEXamples {
     }
 }
 ```
+###<a name="XPath_after_move"></a> XPath after move
+This example shows temporal XPath query after previous example.
+```
+import txml.TXml;
+import txml.NodeList;
 
+public class TXMLInEXamples {
 
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException, FileNotFoundException, ParserConfigurationException, XMLStreamException {
+        Class.forName("org.postgresql.Driver");
+        TXml txml = new TXml();
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {            
+            NodeList nodes = txml.eval(
+                    "declare option txml:time-format 'H:mm:ss:SSS';" +
+                    "txml:doc('txml', 'example.xml')//isbn[. = '8090119964']/..", connection, true).asNodeList();
+            System.out.println(nodes.getTrees(true));
+        }
+    }
+}
+```
+This is output on stdout:
+```
+<book id="8090119964" txml:from="11:01:25:907" txml:to="Now" txml:id="58">
+  <isbn txml:from="11:01:25:907" txml:to="11:11:29:681" txml:id="61">
+    8090119964
+  </isbn>
+  <title xml:lang="cz">
+    Babička
+  </title>
+  <hr:author>
+    <hr:name>
+      Božena Němcová
+    </hr:name>
+  </hr:author>
+</book>
+<book txml:from="11:03:21:001" txml:to="Now" txml:id="70">
+  <isbn txml:from="11:11:29:682" txml:to="Now" txml:id="61">
+    8090119964
+  </isbn>
+  <title>
+    Ferdinand Peroutka. Život v novinách
+  </title>
+</book>
+```
