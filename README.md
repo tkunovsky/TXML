@@ -218,6 +218,11 @@ public class TXMLInEXamples {
             Node childNode = txml.eval("txml:doc('txml', 'example.xml')//isbn[. = '8090119964']", connection, false).asNodeList().item(0);
             Node parentNode = txml.eval("txml:doc('txml', 'example.xml')/library/book[title = 'Ferdinand Peroutka. Život v novinách']", connection, false).asNodeList().item(0);
             childNode.setParentInDocument(parentNode, 1);
+            
+            /* alternative
+            txml.eval("for $n in txml:doc('txml', 'example.xml')//isbn[. = '8090119964']                              "
+                    + "    SET PARENT $n AS /library/book[title = 'Ferdinand Peroutka. Život v novinách']" POSITION "1"
+                    , connection, false);*/
         }
     }
 }
