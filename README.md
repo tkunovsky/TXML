@@ -183,12 +183,15 @@ import txml.Node;
 
 public class TXMLInEXamples {
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException, FileNotFoundException, ParserConfigurationException, XMLStreamException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
         TXml txml = new TXml();
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
             Node node = txml.eval("txml:doc('txml', 'example.xml')/library/book/@available", connection, false).asNodeList().item(0);
             System.out.println(node.getTree(false));
+            
+            /* alternative
+            Node node = txml.eval("txml:doc('txml', 'example.xml')//@available", connection, false).asNodeList().item(0);*/
         }
     }
 }
