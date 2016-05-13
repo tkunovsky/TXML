@@ -284,6 +284,8 @@ public class TXMLInEXamples {
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {  
             String xmlDoc = txml.getSnapshot(connection, "txml", "example.xml", "Now").getXMLDocFormatA();
             System.out.println(xmlDoc);
+            /* alternative
+            txml.eval("txml:doc-snapshot('txml', 'example.xml', 'Now')", connection);*/
         }
     }
 }
