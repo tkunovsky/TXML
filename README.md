@@ -221,7 +221,7 @@ public class TXMLInEXamples {
             
             /* alternative
             txml.eval("for $n in txml:doc('txml', 'example.xml')//isbn[. = '8090119964']                              "
-                    + "    SET PARENT $n AS /library/book[title = 'Ferdinand Peroutka. Život v novinách']" POSITION "1"
+                    + "    SET PARENT $n AS /library/book[title = 'Ferdinand Peroutka. Život v novinách'] POSITION '1'"
                     , connection, false);*/
         }
     }
