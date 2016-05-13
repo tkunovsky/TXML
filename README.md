@@ -152,7 +152,7 @@ This is output on stdout:
 ```
 
 ###<a name="attribute_delete"></a> Attribute delete
-This example deletes attribute in document example.xml.
+This example deletes attribute "available" in document example.xml.
 ```
 import txml.TXml;
 import txml.Node;
