@@ -17,6 +17,7 @@
     *  [XPath after move](#XPath_after_move) 
     *  [Snapshot](#snapshot) 
     *  [Other](#other)
+5.  [Grammar](#grammar)
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
