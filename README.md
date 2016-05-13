@@ -11,6 +11,7 @@
     *  [Deinit schema](#deinit_schema) 
     *  [Element insert](#element_insert) 
     *  [XPath after insert](#XPath_after_insert) 
+    *  [Attribute delete](#attribute_delete) 
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
@@ -150,3 +151,21 @@ This is output on stdout:
 </book>
 ```
 
+###<a name="attribute_delete"></a> Attribute delete
+This example delete attribute in document example.xml.
+```
+import txml.TXml;
+import txml.Node;
+
+public class TXMLInEXamples {
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException  {
+        Class.forName("org.postgresql.Driver");
+        TXml txml = new TXml();
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
+            Node node = txml.eval("txml:doc('txml', 'example.xml')/library/book[@id='b0836217462']/@available", connection, false).asNodeList().item(0);
+            node.deleteInDocument();
+        }
+    }
+}
+```
