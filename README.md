@@ -15,7 +15,7 @@
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
 
-Temporal attributes have namespace txml, see https://github.com/tkunovsky/TXML/blob/master/src/main/resources/txml_schema.xsd
+Temporal attributes have namespace https://github.com/tkunovsky/TXML, see https://github.com/tkunovsky/TXML/blob/master/src/main/resources/txml_schema.xsd
 
 Documents in database are storing into schemas. This allows you to group them and setting access permissions.
 
