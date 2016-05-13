@@ -16,6 +16,7 @@
     *  [Element move](#element_move) 
     *  [XPath after move](#XPath_after_move) 
     *  [Snapshot](#snapshot) 
+    *  [Other](#other)
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
@@ -382,3 +383,5 @@ This is output on stdout:
   </book>
 </library>
 ```
+###<a name="other"></a> Other examples
+You can find more examples in unit test file https://github.com/tkunovsky/TXML/blob/master/src/test/java/txml/TXmlTest.java .
