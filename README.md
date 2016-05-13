@@ -11,7 +11,8 @@
     *  [Deinit schema](#deinit_schema) 
     *  [Element insert](#element_insert) 
     *  [XPath after insert](#XPath_after_insert) 
-    *  [Attribute delete](#attribute_delete) 
+    *  [Attribute delete](#attribute_delete)
+    *  [XPath after delete](#XPath_after_delete) 
 
 ##<a name="desc"></a> TXML description
 TXML is library for temporal storing your XML documents in relational database. This library is implemented in Java and supports PostgreSQL and H2 databases.
@@ -174,3 +175,26 @@ public class TXMLInEXamples {
     }
 }
 ```
+###<a name="XPath_after_delete"></a> XPath after delete
+This example shows temporal XPath query after previous example.
+```
+import txml.TXml;
+import txml.Node;
+
+public class TXMLInEXamples {
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException, FileNotFoundException, ParserConfigurationException, XMLStreamException {
+        Class.forName("org.postgresql.Driver");
+        TXml txml = new TXml();
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {
+            Node node = txml.eval("txml:doc('txml', 'example.xml')/library/book/@available", connection, false).asNodeList().item(0);
+            System.out.println(node.getTree(false));
+        }
+    }
+}
+```
+This is output on stdout:
+```
+<txml:attribute name="available" value="true" txml:from="12. 5. 2016 19:27:28" txml:to="13. 5. 2016 9:40:39" txml:id="5"/>
+```
+
