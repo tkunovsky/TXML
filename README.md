@@ -385,3 +385,6 @@ This is output on stdout:
 ```
 ###<a name="other"></a> Other examples
 You can find more examples in unit test file https://github.com/tkunovsky/TXML/blob/master/src/test/java/txml/TXmlTest.java .
+
+###<a name="grammar"></a> Grammar
+Here is described grammar: https://github.com/tkunovsky/TXML/blob/master/src/main/resources/XQuery.g4
