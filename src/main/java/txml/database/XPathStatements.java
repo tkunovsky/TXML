@@ -37,11 +37,11 @@ public class XPathStatements {
     
     private final String childrenByTypeAndLabelQuery = 
             "SELECT lcp.id as id, lcp.\"from\" as \"from\", lcp.\"to\" as to, lcp.parentId as parentId, lcp.parentFrom as parentFrom, lcp.parentTo as parentTo, lcp.value as value, lcp_class.depth as depth, lcp.lcp_class as lcp_class, lcp_class.type as type, lcp_class.local_part as local_part, namespace.prefix as prefix, namespace.uri as uri, namespace.id as namespace_id "
-            + "FROM %s.LCP as lcp, %s.LCP_CLASS as lcp_class, %s.namespace as namespace where namespace.id = lcp_class.namespace_id and lcp.parentId = ? and lcp.parentFrom = ? and lcp.parentTo = ? and lcp.LCP_CLASS = lcp_class.ID and lcp_class.type = ? and lcp_class.local_part = ? and lcp_class.namespace_id = ?";
+            + "FROM %s.LCP as lcp, %s.LCP_CLASS as lcp_class, %s.namespace as namespace where namespace.id = lcp_class.namespace_id and lcp.LCP_CLASS = lcp_class.ID and lcp_class.type = ? and lcp_class.local_part = ? and lcp_class.namespace_id = ? order by lcp.parentId asc, lcp.parentFrom asc";
     
     private final String childrenByTypeQuery = 
             "SELECT lcp.id as id, lcp.\"from\" as \"from\", lcp.\"to\" as to, lcp.parentId as parentId, lcp.parentFrom as parentFrom, lcp.parentTo as parentTo, lcp.value as value, lcp_class.depth as depth, lcp.lcp_class as lcp_class, lcp_class.type as type, lcp_class.local_part as local_part, namespace.prefix as prefix, namespace.uri as uri, namespace.id as namespace_id "
-            + "FROM %s.LCP as lcp, %s.LCP_CLASS as lcp_class, %s.namespace as namespace where namespace.id = lcp_class.namespace_id and lcp.parentId = ? and lcp.parentFrom = ? and lcp.parentTo = ? and lcp.LCP_CLASS = lcp_class.ID and lcp_class.type = ?";
+            + "FROM %s.LCP as lcp, %s.LCP_CLASS as lcp_class, %s.namespace as namespace where namespace.id = lcp_class.namespace_id and lcp.LCP_CLASS = lcp_class.ID and lcp_class.type = ? order by lcp.parentId asc, lcp.parentFrom asc";
     
     private final String childrenOfOneTypeQuery = 
             "SELECT lcp.id as id, lcp.\"from\" as \"from\", lcp.\"to\" as to, lcp.parent as parent, lcp.value as value, lcp_class.depth as depth, lcp.lcp_class as lcp_class, lcp_class.type as type, lcp_class.local_part as local_part, namespace.prefix as prefix and namespace.uri as uri and namespace.id as namespace_id "
@@ -53,7 +53,7 @@ public class XPathStatements {
     
     private final String childrenByDepthQuery = 
             "SELECT lcp.id as id, lcp.\"from\" as \"from\", lcp.\"to\" as to, lcp.parentId as parentId, lcp.parentFrom as parentFrom, lcp.parentTo as parentTo, lcp.value as value, lcp_class.depth as depth, lcp.lcp_class as lcp_class, lcp_class.type as type, lcp_class.local_part as local_part, namespace.prefix as prefix, namespace.uri as uri, namespace.id as namespace_id "
-            + "FROM %s.LCP as lcp, %s.LCP_CLASS as lcp_class, %s.namespace as namespace where namespace.id = lcp_class.namespace_id and lcp.parentId = ? and lcp.parentFrom = ? and lcp.parentTo = ? and lcp.LCP_CLASS = lcp_class.ID and lcp_class.depth <= ?";
+            + "FROM %s.LCP as lcp, %s.LCP_CLASS as lcp_class, %s.namespace as namespace where namespace.id = lcp_class.namespace_id and lcp.LCP_CLASS = lcp_class.ID and lcp_class.depth <= ? order by lcp.parentId asc, lcp.parentFrom asc";
     
     private final String valuesQuery = 
             "SELECT lcp.id as id, lcp.\"from\" as \"from\", lcp.\"to\" as to, lcp.parent as parent, lcp.value as value, lcp_class.depth as depth, lcp.lcp_class as lcp_class, lcp_class.type as type, lcp_class.local_part as local_part, namespace.prefix as prefix and namespace.uri as uri and namespace.id as namespace_id "

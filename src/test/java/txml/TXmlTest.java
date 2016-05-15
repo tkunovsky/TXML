@@ -42,7 +42,7 @@ public class TXmlTest {
     @BeforeClass
     static public void setUpBeforeClass() throws SQLException {
         TXmlTest.dbConn =  DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;USER=sa;PASSWORD=123");
-        //TXmlTest.dbConn =  DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=774333153");
+        //TXmlTest.dbConn =  DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml");
     }
     
     @AfterClass

@@ -21,6 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -320,57 +322,22 @@ public class TNodeList extends TXmlResult implements NodeList {
                     if (this.item(i).getDepth() <= maxDepth) {
                         temporalNodes.add(this.item(i));
                     }
-                    
                 }
             }
 
-            preparedStatement = this.settings.getDbApi().getChildrenByDepth(this.settings.getConnection(), this.settings.getSchemaName());
             while(!temporalNodes.isEmpty()) {
-                for (TNode tempNode:temporalNodes) {
-                    preparedStatement.setLong(1, tempNode.getId());
-                    preparedStatement.setLong(2, tempNode.getFromAsLong());
-                    preparedStatement.setLong(3, tempNode.getToAsLong());
-                    preparedStatement.setInt(4, maxDepth);
-                    resultSet = preparedStatement.executeQuery();
-                    while (resultSet.next()) {
-                        TNode tNode = new TNode(
-                        resultSet.getLong("from"), 
-                        resultSet.getLong("to"), 
-                        resultSet.getLong("id"), 
-                        resultSet.getString("value"), 
-                        resultSet.getInt("depth"), 
-                        resultSet.getLong("lcp_class"),
-                        resultSet.getShort("type"),
-                        resultSet.getString("local_part"),
-                        resultSet.getString("uri"),
-                        resultSet.getString("prefix"),    
-                        resultSet.getLong("namespace_id"),        
-                        resultSet.getLong("parentId"),
-                        resultSet.getLong("parentFrom"),
-                        resultSet.getLong("parentTo"),
-                        settings);  
-                        tNode.getLocalSettings().setSavedNodes(tempNode.getLocalSettings().getSavedNodes());
-                        newTemporalNodes.add(tNode);
-
-
-                        if (resultSet.getString("local_part").equals(namespaceInfo.getLocalPart()) && resultSet.getLong("namespace_id") == namespaceInfo.getId() && (resultSet.getShort("type") == type)) {
-                            newItems.add(tNode);
-                        }
-                     
+                newTemporalNodes = getChildrenByDepth(maxDepth, temporalNodes);
+                for (TNode tNode:newTemporalNodes) {  
+                    if (tNode.getLocalName().equals(namespaceInfo.getLocalPart()) && tNode.getNamespaceId().equals(namespaceInfo.getId()) && (tNode.getNodeType() == type)) {
+                        newItems.add(tNode);
                     }
-
-                    resultSet.close();
                 }
-                
+
                 temporalNodes = newTemporalNodes;
-                newTemporalNodes = new ArrayList<>();
-                
-                
             }
-            preparedStatement.close();
+
             result = new TNodeList(this.settings, newItems);
         }
-
 
         return result; 
     }
@@ -616,87 +583,28 @@ public class TNodeList extends TXmlResult implements NodeList {
         return result;
     }
     
-    private TNodeList getChildrenByTypeAndLabel(String label, short type) throws SQLException {
-        List<TNode> newItems = new ArrayList<>();
-        TNodeList result;
-        PreparedStatement preparedStatement;
-        ResultSet resultSet;
-        NamespaceInfo namespaceInfo = this.settings.getDbApi().getNamespaceInfoFromPrefix(this.settings.getConnection(), this.settings.getSchemaName(), label, this.settings.getDocumentId(), type);
-        if (this.documentNode) {
-            TNode tNode = getDocumentRoot();
-            if (tNode.getLocalName().equals(namespaceInfo.getLocalPart()) && tNode.getPrefix().equals(namespaceInfo.getPrefix()) && tNode.getNodeType() == type) {
-                newItems.add(tNode);
+    private List<TNode> getChildrenByDepth(int depth, List<TNode> parents) throws SQLException {
+        List<TNode> result = new ArrayList<>();
+        List<TNode> copyParents = new ArrayList<>(parents);
+        PreparedStatement preparedStatement = this.settings.getDbApi().getChildrenByDepth(this.settings.getConnection(), this.settings.getSchemaName());
+        Collections.sort(copyParents, new Comparator<TNode>() {
+            @Override
+            public int compare(TNode o1, TNode o2) {
+                if (o1.getId().compareTo(o2.getId()) != 0) {
+                    return o1.getId().compareTo(o2.getId());
+                } else {
+                    return o1.getFromAsLong().compareTo(o2.getFromAsLong());
+                }
             }
-        } else {
-            preparedStatement = this.settings.getDbApi().getChildrenByTypeAndLabel(this.settings.getConnection(), this.settings.getSchemaName());
-            
-            for (int i = 0; i < this.getLength(); i++) {
-                preparedStatement.setLong(1, this.item(i).getId());
-                preparedStatement.setLong(2, this.item(i).getFromAsLong());
-                preparedStatement.setLong(3, this.item(i).getToAsLong());
-                preparedStatement.setShort(4, type);
-                preparedStatement.setString(5, namespaceInfo.getLocalPart());
-                preparedStatement.setLong(6, namespaceInfo.getId());
-                resultSet = preparedStatement.executeQuery();        
-                
-                while(resultSet.next()) {
-                    TNode tNode = new TNode(
-                    resultSet.getLong("from"), 
-                    resultSet.getLong("to"), 
-                    resultSet.getLong("id"), 
-                    resultSet.getString("value"), 
-                    resultSet.getInt("depth"), 
-                    resultSet.getLong("lcp_class"),
-                    resultSet.getShort("type"),
-                    resultSet.getString("local_part"),
-                    resultSet.getString("uri"),
-                    resultSet.getString("prefix"),
-                    resultSet.getLong("namespace_id"),
-                    resultSet.getLong("parentId"),
-                    resultSet.getLong("parentFrom"),
-                    resultSet.getLong("parentTo"),
-                    settings
-                    );  
-                    tNode.getLocalSettings().setSavedNodes(item(i).getLocalSettings().getSavedNodes());
-
-                    newItems.add(tNode);
-                    
-                }  
-
-                resultSet.close();
-            }
-
-            preparedStatement.close();
-
-        }
+        });
         
-        result = new TNodeList(this.settings, newItems);
-        return result;
-    }
+        preparedStatement.setInt(1, depth);
+        ResultSet resultSet = preparedStatement.executeQuery(); 
+        int i = 0;
+        boolean finish = !resultSet.next() || copyParents.size() <= i;
 
-    private TNodeList getChildrenByType(short type) throws SQLException {
-        List<TNode> newItems = new ArrayList<>();
-        TNodeList result;
-        PreparedStatement preparedStatement;
-        ResultSet resultSet;
-        if (this.documentNode) {
-            TNode tNode = getDocumentRoot();
-            if (tNode.getNodeType() == type) {
-                newItems.add(tNode);
-            }
-            
-        } else {
-            preparedStatement = this.settings.getDbApi().getChildrenByType(this.settings.getConnection(), this.settings.getSchemaName());
-            
-            for (int i = 0; i < this.getLength(); i++) {
-                preparedStatement.setLong(1, this.item(i).getId());
-                preparedStatement.setLong(2, this.item(i).getFromAsLong());
-                preparedStatement.setLong(3, this.item(i).getToAsLong());
-                preparedStatement.setShort(4, type);
-                resultSet = preparedStatement.executeQuery();
-
-                while(resultSet.next()) {
-                    TNode tNode = new TNode(
+        while(!finish) {
+            TNode tNode = new TNode(
                     resultSet.getLong("from"), 
                     resultSet.getLong("to"), 
                     resultSet.getLong("id"), 
@@ -713,15 +621,186 @@ public class TNodeList extends TXmlResult implements NodeList {
                     resultSet.getLong("parentTo"),
                     settings
                     );  
-                    tNode.getLocalSettings().setSavedNodes(this.item(i).getLocalSettings().getSavedNodes());
-
-                    newItems.add(tNode);
-                    
-                }  
-
-                resultSet.close();
+            
+            int compare;
+            
+            if (tNode.getParentId().compareTo(copyParents.get(i).getId()) != 0) {
+                compare = tNode.getParentId().compareTo(copyParents.get(i).getId());
+            } else {
+                compare = tNode.getParentFromAsLong().compareTo(copyParents.get(i).getFromAsLong());
             }
-            preparedStatement.close();
+            
+            if (compare == 0) {
+                tNode.getLocalSettings().setSavedNodes(copyParents.get(i).getLocalSettings().getSavedNodes());
+                result.add(tNode);    
+                finish = !resultSet.next();
+            } else if (compare < 0) {
+                finish = !resultSet.next();
+            } else {
+                i++;
+                finish = copyParents.size() <= i;
+            }
+        }
+        resultSet.close();
+        preparedStatement.close();
+        return result;
+    }
+    
+    private List<TNode> getChildrenByType(short type, List<TNode> parents) throws SQLException {
+        List<TNode> result = new ArrayList<>();
+        List<TNode> copyParents = new ArrayList<>(parents);
+        PreparedStatement preparedStatement = this.settings.getDbApi().getChildrenByType(this.settings.getConnection(), this.settings.getSchemaName());
+        Collections.sort(copyParents, new Comparator<TNode>() {
+            @Override
+            public int compare(TNode o1, TNode o2) {
+                if (o1.getId().compareTo(o2.getId()) != 0) {
+                    return o1.getId().compareTo(o2.getId());
+                } else {
+                    return o1.getFromAsLong().compareTo(o2.getFromAsLong());
+                }
+            }
+        });
+        
+        preparedStatement.setShort(1, type);
+        ResultSet resultSet = preparedStatement.executeQuery(); 
+        int i = 0;
+        boolean finish = !resultSet.next() || copyParents.size() <= i;
+
+        while(!finish) {
+            TNode tNode = new TNode(
+                    resultSet.getLong("from"), 
+                    resultSet.getLong("to"), 
+                    resultSet.getLong("id"), 
+                    resultSet.getString("value"), 
+                    resultSet.getInt("depth"), 
+                    resultSet.getLong("lcp_class"),
+                    resultSet.getShort("type"),
+                    resultSet.getString("local_part"),
+                    resultSet.getString("uri"),
+                    resultSet.getString("prefix"),  
+                    resultSet.getLong("namespace_id"),          
+                    resultSet.getLong("parentId"),
+                    resultSet.getLong("parentFrom"),
+                    resultSet.getLong("parentTo"),
+                    settings
+                    );  
+            
+            int compare;
+            
+            if (tNode.getParentId().compareTo(copyParents.get(i).getId()) != 0) {
+                compare = tNode.getParentId().compareTo(copyParents.get(i).getId());
+            } else {
+                compare = tNode.getParentFromAsLong().compareTo(copyParents.get(i).getFromAsLong());
+            }
+            
+            if (compare == 0) {
+                tNode.getLocalSettings().setSavedNodes(copyParents.get(i).getLocalSettings().getSavedNodes());
+                result.add(tNode);    
+                finish = !resultSet.next();
+            } else if (compare < 0) {
+                finish = !resultSet.next();
+            } else {
+                i++;
+                finish = copyParents.size() <= i;
+            }
+        }
+        resultSet.close();
+        preparedStatement.close();
+        return result;
+    }
+    
+    private List<TNode> getChildrenByTypeAndLabel(short type, NamespaceInfo namespaceInfo, List<TNode> parents) throws SQLException {
+        List<TNode> result = new ArrayList<>();
+        List<TNode> copyParents = new ArrayList<>(parents);
+        PreparedStatement preparedStatement = this.settings.getDbApi().getChildrenByTypeAndLabel(this.settings.getConnection(), this.settings.getSchemaName());
+        Collections.sort(copyParents, new Comparator<TNode>() {
+            @Override
+            public int compare(TNode o1, TNode o2) {
+                if (o1.getId().compareTo(o2.getId()) != 0) {
+                    return o1.getId().compareTo(o2.getId());
+                } else {
+                    return o1.getFromAsLong().compareTo(o2.getFromAsLong());
+                }
+            }
+        });
+        
+        preparedStatement.setShort(1, type);
+        preparedStatement.setString(2, namespaceInfo.getLocalPart());
+        preparedStatement.setLong(3, namespaceInfo.getId());
+        ResultSet resultSet = preparedStatement.executeQuery(); 
+        int i = 0;
+        boolean finish = !resultSet.next() || copyParents.size() <= i;
+
+        while(!finish) {
+            TNode tNode = new TNode(
+                    resultSet.getLong("from"), 
+                    resultSet.getLong("to"), 
+                    resultSet.getLong("id"), 
+                    resultSet.getString("value"), 
+                    resultSet.getInt("depth"), 
+                    resultSet.getLong("lcp_class"),
+                    resultSet.getShort("type"),
+                    resultSet.getString("local_part"),
+                    resultSet.getString("uri"),
+                    resultSet.getString("prefix"),  
+                    resultSet.getLong("namespace_id"),          
+                    resultSet.getLong("parentId"),
+                    resultSet.getLong("parentFrom"),
+                    resultSet.getLong("parentTo"),
+                    settings
+                    );  
+            
+            int compare;
+            
+            if (tNode.getParentId().compareTo(copyParents.get(i).getId()) != 0) {
+                compare = tNode.getParentId().compareTo(copyParents.get(i).getId());
+            } else {
+                compare = tNode.getParentFromAsLong().compareTo(copyParents.get(i).getFromAsLong());
+            }
+            
+            if (compare == 0) {
+                tNode.getLocalSettings().setSavedNodes(copyParents.get(i).getLocalSettings().getSavedNodes());
+                result.add(tNode);    
+                finish = !resultSet.next();
+            } else if (compare < 0) {
+                finish = !resultSet.next();
+            } else {
+                i++;
+                finish = copyParents.size() <= i;
+            }
+        }
+        resultSet.close();
+        preparedStatement.close();
+        return result;
+    }
+    
+    private TNodeList getChildrenByTypeAndLabel(String label, short type) throws SQLException {
+        List<TNode> newItems = new ArrayList<>();
+        TNodeList result;
+        NamespaceInfo namespaceInfo = this.settings.getDbApi().getNamespaceInfoFromPrefix(this.settings.getConnection(), this.settings.getSchemaName(), label, this.settings.getDocumentId(), type);
+        if (this.documentNode) {
+            TNode tNode = getDocumentRoot();
+            if (tNode.getLocalName().equals(namespaceInfo.getLocalPart()) && tNode.getPrefix().equals(namespaceInfo.getPrefix()) && tNode.getNodeType() == type) {
+                newItems.add(tNode);
+            }
+        } else {
+            newItems = getChildrenByTypeAndLabel(type, namespaceInfo, this.items);
+        }
+        
+        result = new TNodeList(this.settings, newItems);
+        return result;
+    }
+
+    private TNodeList getChildrenByType(short type) throws SQLException {
+        List<TNode> newItems = new ArrayList<>();
+        TNodeList result;
+        if (this.documentNode) {
+            TNode tNode = getDocumentRoot();
+            if (tNode.getNodeType() == type) {
+                newItems.add(tNode);
+            }
+        } else {
+            newItems = getChildrenByType(type, this.items);
         }
         
         result = new TNodeList(this.settings, newItems);
@@ -751,7 +830,6 @@ public class TNodeList extends TXmlResult implements NodeList {
             result = getChildrenByTypeAndLabel(label, XmlNodeTypeEnum.ELEMENT.getShortValue());
         }
         
-     
         return result;
     }
     
@@ -790,7 +868,6 @@ public class TNodeList extends TXmlResult implements NodeList {
         return result;
     }
         
-    
     public TNodeList getValues() throws SQLException, TXmlException {
         short type = XmlNodeTypeEnum.TEXT.getShortValue();
         TNodeList result;
@@ -803,83 +880,54 @@ public class TNodeList extends TXmlResult implements NodeList {
             origItems.add(tNode); 
         } 
         
-        try (PreparedStatement preparedStatement = this.settings.getDbApi().getChildrenByType(this.settings.getConnection(), this.settings.getSchemaName())) {
-            for (int i = 0; i < origItems.size(); i++) {
-                if (origItems.get(i).getNodeType() == XmlNodeTypeEnum.TXML_ATTRIBUTE.getShortValue() ) {
-                    String value;
-                    short txmlType;
-                    switch (origItems.get(i).getNodeName()) {
-                        case "txml:id":
-                            value = origItems.get(i).getParentId().toString();
-                            txmlType = XmlNodeTypeEnum.TXML_VALUE_ID.getShortValue();
-                            break;
-                        case "txml:from":
-                            value = origItems.get(i).getFromAsString();
-                            txmlType = XmlNodeTypeEnum.TXML_VALUE_FROM.getShortValue();
-                            break;
-                        default:
-                            value = origItems.get(i).getToAsString();
-                            txmlType = XmlNodeTypeEnum.TXML_VALUE_TO.getShortValue();
-                            break;
-                    }
-                    
-                    TNode tNode = new TNode(
-                            origItems.get(i).getFromAsLong(),
-                            origItems.get(i).getToAsLong(),
-                            Short.MIN_VALUE - this.item(i).getId(),
-                            value,
-                            origItems.get(i).getDepth() + 1,
-                            0l,
-                            txmlType,
-                            "value",
-                            "",
-                            "",
-                            -2l,
-                            origItems.get(i).getId(),
-                            origItems.get(i).getFromAsLong(),
-                            origItems.get(i).getToAsLong(),
-                            origItems.get(i),  
-                            settings
-                    );
-                    tNode.getLocalSettings().setSavedNodes(origItems.get(i).getLocalSettings().getSavedNodes());
-
-                    newItems.add(tNode);
-                    
-                    
-                } else {
-                    ResultSet resultSet = null;
-                    preparedStatement.setLong(1, origItems.get(i).getId());
-                    preparedStatement.setLong(2, origItems.get(i).getFromAsLong());
-                    preparedStatement.setLong(3, origItems.get(i).getToAsLong());
-                    preparedStatement.setShort(4, type);
-                    resultSet = preparedStatement.executeQuery();
-                    while(resultSet.next()) {
-                        TNode tNode = new TNode(
-                                resultSet.getLong("from"),
-                                resultSet.getLong("to"),
-                                resultSet.getLong("id"),
-                                resultSet.getString("value"),
-                                resultSet.getInt("depth"),
-                                resultSet.getLong("lcp_class"),
-                                resultSet.getShort("type"),
-                                resultSet.getString("local_part"),
-                                resultSet.getString("uri"),
-                                resultSet.getString("prefix"),
-                                resultSet.getLong("namespace_id"),
-                                resultSet.getLong("parentId"),
-                                resultSet.getLong("parentFrom"),
-                                resultSet.getLong("parentTo"),
-                                settings
-                        );
-                        tNode.getLocalSettings().setSavedNodes(origItems.get(i).getLocalSettings().getSavedNodes());
-
-                        newItems.add(tNode);
-                    }
-                    resultSet.close();
+        List<TNode> parentList = new ArrayList<>();
+        for (int i = 0; i < origItems.size(); i++) {
+            if (origItems.get(i).getNodeType() == XmlNodeTypeEnum.TXML_ATTRIBUTE.getShortValue() ) {
+                String value;
+                short txmlType;
+                switch (origItems.get(i).getNodeName()) {
+                    case "txml:id":
+                        value = origItems.get(i).getParentId().toString();
+                        txmlType = XmlNodeTypeEnum.TXML_VALUE_ID.getShortValue();
+                        break;
+                    case "txml:from":
+                        value = origItems.get(i).getFromAsString();
+                        txmlType = XmlNodeTypeEnum.TXML_VALUE_FROM.getShortValue();
+                        break;
+                    default:
+                        value = origItems.get(i).getToAsString();
+                        txmlType = XmlNodeTypeEnum.TXML_VALUE_TO.getShortValue();
+                        break;
                 }
+
+                TNode tNode = new TNode(
+                        origItems.get(i).getFromAsLong(),
+                        origItems.get(i).getToAsLong(),
+                        Short.MIN_VALUE - this.item(i).getId(),
+                        value,
+                        origItems.get(i).getDepth() + 1,
+                        0l,
+                        txmlType,
+                        "value",
+                        "",
+                        "",
+                        -2l,
+                        origItems.get(i).getId(),
+                        origItems.get(i).getFromAsLong(),
+                        origItems.get(i).getToAsLong(),
+                        origItems.get(i),  
+                        settings
+                );
+                tNode.getLocalSettings().setSavedNodes(origItems.get(i).getLocalSettings().getSavedNodes());
+
+                newItems.add(tNode);
+            } else {
+                parentList.add(origItems.get(i));
             }
         }
-        
+
+        List<TNode> valueNodes = getChildrenByType(type, parentList);
+        newItems.addAll(valueNodes);    
         result = new TNodeList(this.settings, newItems);
                 
         return result;
