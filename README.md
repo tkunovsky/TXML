@@ -237,7 +237,7 @@ import txml.NodeList;
 
 public class TXMLInEXamples {
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException, FileNotFoundException, ParserConfigurationException, XMLStreamException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
         TXml txml = new TXml();
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost/txml?user=txml&password=txml")) {            
